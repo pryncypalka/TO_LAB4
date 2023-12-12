@@ -1,5 +1,5 @@
 from ABC import ABC, abstractmethod
-class Node:
+class Node():
     def __init__(self,parent,name):
         self._parent = parent
         self._name = name
