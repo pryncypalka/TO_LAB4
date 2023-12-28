@@ -1,16 +1,56 @@
-# This is a sample Python script.
+from prompt import Prompt
+from Config import Config
+from tree_structure.Directory import Directory
+from tree_structure.File import File
+from tree_structure.Node import Node
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def create_tree_structure():
+    # Tworzenie struktury drzewa plików
+    root = Directory("/", None)
+
+    # Katalog "usr"
+    usr = Directory("usr", root)
+    root.add_child(usr)
+
+    # Katalog "admin" w "usr"
+    admin = Directory("admin", usr)
+    usr.add_child(admin)
+
+    # Katalog "dev" w "root"
+    dev = Directory("dev", root)
+    root.add_child(dev)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+
+    # Katalog "docs" w "root"
+    docs = Directory("docs", root)
+    root.add_child(docs)
+
+    # Plik "file.txt" w "docs"
+    file_txt = File("file.txt", docs, "This is the content of file.txt.")
+    docs.add_child(file_txt)
+
+    return root
 
 
-# Press the green button in the gutter to run the script.
+
+def display_tree(node, indent=0):
+    print("  " * indent + f"{node.get_name()}/")
+    if isinstance(node, Directory):
+        for child in node.get_children():
+            display_tree(child, indent + 1)
+    elif isinstance(node, File):
+        print("  " * (indent + 1) + f"{node.get_name()} ({len(node.get_content())} bytes)")
+
+
+def main():
+    root = create_tree_structure()
+    # display_tree(root)
+    prompt = Prompt(root)
+    prompt.run()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    main()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
