@@ -1,8 +1,9 @@
 from prompt import Prompt
-from Config import Config
+
 from tree_structure.Directory import Directory
 from tree_structure.File import File
-from tree_structure.Node import Node
+
+from Path_to_Directory import Path_to_Directory
 
 def create_tree_structure():
     # Tworzenie struktury drzewa plików
@@ -34,20 +35,23 @@ def create_tree_structure():
 
 
 
-def display_tree(node, indent=0):
-    print("  " * indent + f"{node.get_name()}/")
-    if isinstance(node, Directory):
-        for child in node.get_children():
-            display_tree(child, indent + 1)
-    elif isinstance(node, File):
-        print("  " * (indent + 1) + f"{node.get_name()} ({len(node.get_content())} bytes)")
+# def display_tree(node, indent=0):
+#     print("  " * indent + f"{node.get_name()}/")
+#     if isinstance(node, Directory):
+#         for child in node.get_children():
+#             display_tree(child, indent + 1)
+#     elif isinstance(node, File):
+#         print("  " * (indent + 1) + f"{node.get_name()} ({len(node.get_content())} bytes)")
 
 
 def main():
     root = create_tree_structure()
     # display_tree(root)
-    prompt = Prompt(root)
+    prompt = Prompt()
+    prompt.update_location(root)
+    Path_to_Directory._root_directory = root
     prompt.run()
+
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 from commands.CommandExecutor import CommandExecutor
 from commands.cd import Cd
-from Parser import Parser
+from Path_to_Directory import Path_to_Directory
 
 
 class CdProxy(CommandExecutor):
@@ -14,17 +14,23 @@ class CdProxy(CommandExecutor):
         else:
             target_directory = args[0]
 
-        if target_directory == "..":
-            # Sprawdź, czy można się przenieść do docelowego katalogu
-            if self.can_change_directory(target_directory):
-                result = self._cd_command.execute([target_directory])
+        if target_directory == ".." and current_directory.get_parent() is not None:
+            result = self._cd_command.execute(current_directory.get_parent(), current_directory)
+        elif target_directory == ".." and current_directory.get_parent() is None:
+            result = f"Cannot change to {target_directory}. Already at root directory."
+        elif target_directory == ".":
+            result = self._cd_command.execute(current_directory, current_directory)
+        else:
+            directory = Path_to_Directory.path_to_directory(target_directory)
+            if directory is not None:
+                result = self._cd_command.execute(directory, current_directory)
             else:
                 result = f"Cannot change to {target_directory}. Directory does not exist."
-        else:
-            result = f"Invalid argument for cd command: {target_directory}"
 
-        return result
+        if result is not None:
+            print(result)
 
-    def can_change_directory(self, target_directory):
-        pass
+
+
+
 

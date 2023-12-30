@@ -14,8 +14,10 @@ class Directory(Node):
         self._children.remove(child)
 
     def get_children_by_name(self, name):
-        return [child for child in self._children if child.get_name() == name]
-
+        for child in self._children:
+            if child.get_name() == name:
+                return child
+        return None
 
     def get_name(self):
         return self._name

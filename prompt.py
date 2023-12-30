@@ -1,43 +1,50 @@
 from Parser import Parser
 from Config import Config
-
+from Path_to_Directory import Path_to_Directory
 
 class Prompt:
-    def __init__(self, root_directory):
-        self.current_user = Config.username
-        self.current_host = Config.hostname
-        self.current_location = root_directory
-        self.parser = Parser(root_directory)
-
-    def get_input(self):
-        return input(f"{self.current_user}@{self.current_host}:{self.current_location.get_name()}# ")
+    _instance = None
 
 
-    def display_message(self, message):
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(Prompt, cls).__new__(cls)
+            cls._instance.current_user = Config.username
+            cls._instance.current_host = Config.hostname
+            cls._instance.current_location = None
+            cls._instance.parser = Parser()
+        return cls._instance
+
+    @staticmethod
+    def get_input():
+        return input(f"{Prompt._instance.current_user}@{Prompt._instance.current_host}:{Path_to_Directory.directory_to_path(Prompt._instance.current_location)}# ")
+    @staticmethod
+    def display_message(message):
         print(f"Message: {message}")
 
-    def display_result(self, result):
-        print(f"Result: {result}")
+    @staticmethod
+    def display_result(result):
+        if result is not None:
+            print(result)
 
-    def update_location(self, new_location):
-        self.current_location = new_location
+    @classmethod
+    def update_location(cls, new_location):
+        cls._instance.current_location = new_location
 
-    def run(self):
+    @staticmethod
+    def run():
         while True:
             try:
-                command_input = self.get_input()
+                command_input = Prompt.get_input()
 
                 if command_input.lower() == "exit":
-                    self.display_message("Exiting the prompt.")
+                    Prompt.display_message("Exiting the prompt.")
                     break
 
-                result = self.parser.parse_command(command_input, self.current_location)
-                self.display_result(result)
+                Prompt._instance.parser.parse_command(command_input, Prompt._instance.current_location)
+
 
             except SyntaxError as e:
-                self.display_message(f"Syntax Error: {str(e)}")
+                Prompt.display_message(f"Syntax Error: {str(e)}")
             except Exception as e:
-                self.display_message(f"Error: {str(e)}")
-
-
-
+                Prompt.display_message(f"Error: {str(e)}")
