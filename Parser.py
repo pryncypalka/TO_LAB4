@@ -34,8 +34,6 @@ class Parser:
             raise SyntaxError(f"Unknown command: {command}")
 
     def parse_ls(self, args):
-        if args:
-            raise SyntaxError("ls command does not take any arguments")
         proxy_ls = LsProxy()
         proxy_ls.execute(args, self._current_location)
 

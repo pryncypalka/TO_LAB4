@@ -19,6 +19,9 @@ class Directory(Node):
                 return child
         return None
 
+    def get_children(self):
+        return self._children
+
     def get_name(self):
         return self._name
 

@@ -12,6 +12,7 @@ class CdProxy(CommandExecutor):
             # Jeśli brak argumentów, przenieś do katalogu /usr/admin
             target_directory = "/usr/admin"
         else:
+            print(args)
             target_directory = args[0]
 
         if target_directory == ".." and current_directory.get_parent() is not None:
