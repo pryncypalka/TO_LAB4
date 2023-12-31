@@ -63,6 +63,7 @@ class Path_to_Directory:
         components = path.split("/")
         directory_path = "/".join(components[:-1])
 
+
         if directory_path == "" and path[0] == "/":
             directory_path = "/"
         else:

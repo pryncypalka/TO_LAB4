@@ -6,6 +6,9 @@ class File(Node):
         super().__init__(parent, name)
         self._content = content
 
+    def get_parent(self):
+        return self._parent
+
     def get_content(self):
         return self._content
 
