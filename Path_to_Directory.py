@@ -46,3 +46,15 @@ class Path_to_Directory:
             return path
         else:
             return None
+
+    @staticmethod
+    def get_filename(path):
+        # Split the path and return the last component as the filename
+        components = path.split("/")
+        return components[-1]
+
+    @staticmethod
+    def get_directory_path(path):
+        # Join all components except the last one to get the directory path
+        components = path.split("/")
+        return "/".join(components[:-1])
