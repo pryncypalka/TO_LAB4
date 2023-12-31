@@ -3,13 +3,14 @@ class Path_to_Directory:
     _root_directory = None
 
     @classmethod
-    def path_to_directory(cls, path):
+    def path_to_directory(cls, path, current_directory=None):
         if not path:
             return cls._root_directory
 
-        current_directory = cls._root_directory
-        components = path.split("/")
+        if current_directory is None:
+            current_directory = cls._root_directory
 
+        components = path.split("/")
         if path[0] == "/":
             current_directory = cls._root_directory
             components = components[1:]
@@ -18,8 +19,9 @@ class Path_to_Directory:
             if component == "..":
                 # Przejście do rodzica
                 current_directory = current_directory.get_parent()
+                if current_directory is None:
+                    raise ValueError(f"Invalid path: {path}")
             elif component == ".":
-
                 continue
             else:
                 # Przejście do potomka
@@ -28,10 +30,9 @@ class Path_to_Directory:
                 if child_directory is not None and isinstance(child_directory, Directory):
                     current_directory = child_directory
                 else:
-                    return None
+                    raise ValueError(f"Directory not found: {component}")
 
         return current_directory
-
     @classmethod
     def directory_to_path(cls, directory):
         path = ""
