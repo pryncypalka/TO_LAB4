@@ -10,6 +10,9 @@ class Path_to_Directory:
         if current_directory is None:
             current_directory = cls._root_directory
 
+        if path == "/":
+            return cls._root_directory
+
         components = path.split("/")
         if path[0] == "/":
             current_directory = cls._root_directory
@@ -54,7 +57,14 @@ class Path_to_Directory:
         return components[-1]
 
     @staticmethod
-    def get_directory_path(path):
+    def get_directory_path(path, current_directory):
         # Join all components except the last one to get the directory path
+
         components = path.split("/")
-        return "/".join(components[:-1])
+        directory_path = "/".join(components[:-1])
+
+        if directory_path == "" and path[0] == "/":
+            directory_path = "/"
+        else:
+            directory_path = Path_to_Directory.directory_to_path(current_directory)
+        return directory_path

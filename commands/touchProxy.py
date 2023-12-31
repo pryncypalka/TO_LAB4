@@ -12,7 +12,7 @@ class TouchProxy(CommandExecutor):
 
         # Separate filename and directory path
         filename = Path_to_Directory.get_filename(target_path)
-        directory_path = Path_to_Directory.get_directory_path(target_path)
+        directory_path = Path_to_Directory.get_directory_path(target_path, current_directory)
 
         # Resolve the target directory using the provided Path_to_Directory.path_to_directory method
         directory = Path_to_Directory.path_to_directory(directory_path, current_directory)
