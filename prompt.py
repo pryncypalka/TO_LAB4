@@ -2,6 +2,7 @@ from Parser import Parser
 from Config import Config
 from Path_to_Directory import Path_to_Directory
 
+
 class Prompt:
     _instance = None
 
@@ -36,6 +37,7 @@ class Prompt:
         while True:
             try:
                 command_input = Prompt.get_input()
+
 
                 if command_input.lower() == "exit":
                     Prompt.display_message("Exiting the prompt.")

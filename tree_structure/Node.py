@@ -7,13 +7,10 @@ class Node(ABC):
         self._name = name
 
     @abstractmethod
-    def clone(self):
+    def get_parent(self):
         pass
 
     @abstractmethod
-    def create_memento(self):
+    def get_name(self):
         pass
 
-    @abstractmethod
-    def restore(self, memento):
-        pass

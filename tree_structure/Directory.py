@@ -28,11 +28,4 @@ class Directory(Node):
     def get_parent(self):
         return self._parent
 
-    def clone(self):
-        return Directory(self._name, self._parent)
 
-    def create_memento(self):
-        pass
-
-    def restore(self, memento):
-        pass

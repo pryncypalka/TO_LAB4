@@ -18,11 +18,4 @@ class File(Node):
     def get_name(self):
         return self._name
 
-    def clone(self):
-        return File(self._name, self._parent, self._content)
 
-    def create_memento(self):
-        pass
-
-    def restore(self, memento):
-        pass
